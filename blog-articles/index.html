@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- SEO -->
+  <title>Articles – Préparation au test Vivre-Ensemble Luxembourg</title>
+
+  <meta name="description"
+        content="Articles clairs et structurés sur l’histoire, les institutions, la culture et la société luxembourgeoises. Conçus pour les candidats au test Vivre-Ensemble.">
+
+  <link rel="canonical" href="https://vivre-ensemble.lu/blog-articles/">
+
+  <!-- STYLES (same pattern as AU) -->
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/blog.css">
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER (SAME AS OTHER LU PAGES)
+========================= -->
+<header class="site-header">
+  <div class="header-inner">
+    
+    <!-- LEFT -->
+    <div class="header-left">
+      <a href="/" class="brand-link">
+        <img src="/assets/images/lu.svg" alt="LU">
+        <div class="brand-title">Vivre-Ensemble.lu</div>
+      </a>
+    </div>
+
+    <!-- CENTER NAV -->
+    <div class="header-center">
+      <nav class="header-nav">
+        <a href="/test-gratuit/">Test gratuit</a>
+        <a href="/blog-articles/">Articles</a>
+        <a href="/contact/">Contact</a>
+        <a href="https://civiclearn.com/lux/login">Connexion</a>
+      </nav>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="header-right">
+      <div class="brand-powered">propulsé par <span>CivicLearn</span></div>
+      <a href="https://civiclearn.com/lux/checkout.html" class="btn-small-purple">
+        Inscription
+      </a>
+    </div>
+
+  </div>
+</header>
+<main class="page-wrap">
+
+<!-- =========================
+     HERO
+========================= -->
+<section class="articles-hero">
+  <h1>Articles pour le test Vivre-Ensemble</h1>
+  <p class="articles-hero-subtitle">
+    Articles clairs et ciblés sur l’histoire, les institutions,
+    la culture et la société luxembourgeoises — rédigés
+    spécifiquement pour les candidats au test <strong>Vivre-Ensemble</strong>.
+  </p>
+  <a href="https://civiclearn.com/lux/checkout.html" class="cta-purple">
+    Commencer ma préparation
+  </a>
+</section>
+
+
+
+<!-- =========================
+     ALL ARTICLES GRID (NO IMAGES)
+========================= -->
+<section class="articles-grid-section">
+
+  <div class="blog-grid" id="articlesGrid"></div>
+</section>
+
+<!-- =========================
+     CTA BOTTOM
+========================= -->
+<section class="articles-cta-bottom">
+  <h3>Réussir le test Vivre-Ensemble dès la première tentative</h3>
+  <p>
+    Accédez à des simulations complètes, des entraînements ciblés
+    et des explications conformes au contenu officiel.
+  </p>
+  <a href="https://civiclearn.com/lux/checkout.html" class="cta-purple">
+    Accès complet
+  </a>
+</section>
+</main>
+<!-- =========================
+     FOOTER (SAME AS OTHER LU PAGES)
+========================= -->
+
+<footer class="cl-footer">
+  <div class="cl-footer-inner">
+    © 2026 <span class="cl-footer-brand">CivicLearn</span> — Tous droits réservés.
+    · <a href="/test-gratuit/">Test gratuit</a>
+    · <a href="/politiques/">Politiques</a>
+  </div>
+</footer>
+
+
+<!-- =========================
+     GRID POPULATION (NO IMAGES)
+========================= -->
+<script>
+(async function () {
+  const grid = document.getElementById("articlesGrid");
+  if (!grid) return;
+
+  const res = await fetch('/assets/data/articles-lu.json');
+  const all = await res.json();
+
+  all.sort((a, b) => a.title.localeCompare(b.title));
+
+  grid.innerHTML = all.map(a => `
+    <a href="/${a.slug}/" class="blog-card no-image">
+      <div class="blog-card-body">
+        <h3>${a.title}</h3>
+      </div>
+    </a>
+  `).join('');
+})();
+</script>
+
+</body>
+</html>

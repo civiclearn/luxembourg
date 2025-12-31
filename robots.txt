@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /templates/
+Disallow: /node_modules/
+Disallow: /__pycache__/
+Disallow: /404.html
+
+# Allow everything else
+Allow: /
+
+Sitemap: https://vivre-ensemble.lu/sitemap.xml

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Test gratuit – Institutions du Luxembourg | Vivre-Ensemble</title>
+
+  <link rel="canonical" href="https://vivre-ensemble.lu/test-gratuit-institutions/" />
+
+ <meta name="description"
+      content="Test gratuit – Institutions du Luxembourg : 10 questions représentatives pour vous entraîner avant le test Vivre-Ensemble." />
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/shared.css">
+  <link rel="stylesheet" href="/assets/css/testpages.css">
+
+  <style>
+    .test-intro {
+      max-width: 900px;
+      margin: 24px auto 10px;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .test-intro h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .test-subtitle {
+      color: #555;
+      font-size: 1rem;
+    }
+	.lang-switch {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 4px;
+}
+
+.lang-switch button {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.lang-switch button.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+#resultPanel canvas {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="/" class="brand-link">
+        <img src="/assets/images/lu.svg" alt="Luxembourg">
+        <div class="brand-title">Vivre-Ensemble.lu</div>
+      </a>
+    </div>
+
+    <div class="header-center">
+      <nav class="header-nav">
+        <a href="/test-gratuit/">Test gratuit</a>
+        <a href="/blog-articles/">Articles</a>
+        <a href="/contact/">Contact</a>
+        <a href="https://civiclearn.com/lux/login">Connexion</a>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <div class="brand-powered">propulsé par <span>CivicLearn</span></div>
+      <a href="https://civiclearn.com/lux/checkout.html" class="btn-small-purple">
+        Accès complet
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- INTRO -->
+<section class="test-intro">
+  <h1>Test gratuit – Institutions du Luxembourg</h1>
+  <p class="test-subtitle">
+    Entraînez-vous avec 10 questions représentatives de la partie
+    <strong>Institutions</strong> du test Vivre-Ensemble.
+  </p>
+</section>
+<div class="lang-switch">
+  <button data-lang="fr" class="active">FR</button>
+  <button data-lang="en">EN</button>
+  <button data-lang="de">DE</button>
+</div>
+<!-- HEADER BAR -->
+<div class="test-header">
+  <div>
+    <div class="badge">10 questions · Institutions</div>
+    <div class="progress" id="progressLabel">Question 1 sur 10 · Score 0</div>
+  </div>
+  <div class="timer badge" id="timer">15:00</div>
+</div>
+
+<!-- QUESTION CARD -->
+<div class="question-card">
+  <div class="q-title" id="qTitle">…</div>
+  <div class="choices" id="choices"></div>
+
+  <div class="controls">
+    <button class="btn secondary" id="btnPrev" disabled>← Précédente</button>
+    <button class="btn" id="btnNext" disabled>Suivante →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultPanel" class="result-panel" style="display:none;">
+  
+  <div id="gradeStamp" class="result-stamp"></div>
+  <p id="resultText" class="result-text"></p>
+
+  <div class="result-chart-container">
+    <canvas id="resultChart"></canvas>
+  </div>
+
+  <div class="cta">
+    <a href="https://civiclearn.com/lux/checkout.html" class="btn">
+      Accéder à la préparation complète
+    </a>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="cl-footer">
+  <div class="cl-footer-inner">
+    © 2025 <span class="cl-footer-brand">CivicLearn</span> — Tous droits réservés.
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/assets/data/questions-institutions.js"></script>
+<script>
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
+
+let currentLang = "fr";
+let qi = 0;
+let score = 0;
+let timerSec = 15 * 60;
+
+const total = QUESTIONS.length;
+const model = [];
+
+/* =========================================================
+   UI TRANSLATIONS
+========================================================= */
+
+const UI = {
+  fr: {
+    question: "Question",
+    score: "Score",
+    next: "Suivante →",
+    prev: "← Précédente",
+    result: "Voir le résultat →",
+    finalScore: "Score final",
+    correct: "Bonnes réponses",
+    wrong: "Mauvaises réponses"
+  },
+  en: {
+    question: "Question",
+    score: "Score",
+    next: "Next →",
+    prev: "← Previous",
+    result: "View results →",
+    finalScore: "Final score",
+    correct: "Correct answers",
+    wrong: "Incorrect answers"
+  },
+  de: {
+    question: "Frage",
+    score: "Punktzahl",
+    next: "Weiter →",
+    prev: "← Zurück",
+    result: "Ergebnis anzeigen →",
+    finalScore: "Endergebnis",
+    correct: "Richtige Antworten",
+    wrong: "Falsche Antworten"
+  }
+};
+
+/* =========================================================
+   DOM REFERENCES
+========================================================= */
+
+const qTitle = document.getElementById("qTitle");
+const choicesEl = document.getElementById("choices");
+const btnPrev = document.getElementById("btnPrev");
+const btnNext = document.getElementById("btnNext");
+const progressLabel = document.getElementById("progressLabel");
+const timerEl = document.getElementById("timer");
+const resultPanel = document.getElementById("resultPanel");
+const resultText = document.getElementById("resultText");
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* =========================================================
+   BUILD MODEL
+========================================================= */
+
+function buildModel() {
+  model.length = 0;
+
+  QUESTIONS.forEach((item, idx) => {
+    const answers = item.a[currentLang];
+    const correct = answers[0];
+    const shuffled = shuffle(answers);
+
+    model.push({
+      index: idx,
+      text: item.q[currentLang],
+      choices: shuffled.map(opt => ({
+        text: opt,
+        isCorrect: opt === correct
+      })),
+      answered: false,
+      pickedIndex: -1
+    });
+  });
+}
+
+/* =========================================================
+   RENDER QUESTION
+========================================================= */
+
+function renderQuestion() {
+  const q = model[qi];
+
+  qTitle.textContent = q.text;
+  choicesEl.innerHTML = "";
+
+  q.choices.forEach((c, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "choice" + (q.answered ? " disabled" : "");
+    btn.textContent = c.text;
+    btn.addEventListener("click", () => pick(idx));
+    choicesEl.appendChild(btn);
+  });
+
+  btnPrev.disabled = qi === 0;
+  btnPrev.textContent = UI[currentLang].prev;
+  btnNext.disabled = !q.answered;
+
+  progressLabel.textContent =
+    `${UI[currentLang].question} ${qi + 1} / ${total} · ${UI[currentLang].score} ${score}`;
+
+  btnNext.textContent =
+    qi === total - 1 ? UI[currentLang].result : UI[currentLang].next;
+
+  if (q.answered) applyRevealStyles();
+}
+
+/* =========================================================
+   ANSWER PICK
+========================================================= */
+
+function pick(idx) {
+  const q = model[qi];
+  if (q.answered) return;
+
+  q.answered = true;
+  q.pickedIndex = idx;
+
+  if (q.choices[idx].isCorrect) score++;
+
+  applyRevealStyles();
+  btnNext.disabled = false;
+
+  progressLabel.textContent =
+    `${UI[currentLang].question} ${qi + 1} / ${total} · ${UI[currentLang].score} ${score}`;
+}
+
+function applyRevealStyles() {
+  const q = model[qi];
+  const buttons = choicesEl.querySelectorAll(".choice");
+
+  buttons.forEach((b, i) => {
+    b.classList.add("disabled");
+    if (q.choices[i].isCorrect) b.classList.add("correct");
+    if (q.pickedIndex === i && !q.choices[i].isCorrect) b.classList.add("wrong");
+  });
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+btnNext.addEventListener("click", () => {
+  if (qi < total - 1) {
+    qi++;
+    renderQuestion();
+  } else {
+    finishTest();
+  }
+});
+
+btnPrev.addEventListener("click", () => {
+  if (qi > 0) {
+    qi--;
+    renderQuestion();
+  }
+});
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+const timerInt = setInterval(() => {
+  timerSec--;
+  if (timerSec < 0) {
+    clearInterval(timerInt);
+    finishTest();
+    return;
+  }
+  const m = Math.floor(timerSec / 60).toString().padStart(2, "0");
+  const s = (timerSec % 60).toString().padStart(2, "0");
+  timerEl.textContent = `${m}:${s}`;
+}, 1000);
+
+/* =========================================================
+   FINISH + CHART
+========================================================= */
+
+function finishTest() {
+  clearInterval(timerInt);
+  document.querySelector(".question-card").style.display = "none";
+  resultPanel.style.display = "block";
+
+  const wrong = total - score;
+
+  resultText.textContent =
+  `${UI[currentLang].finalScore} : ${score} / ${total} · ` +
+  `${UI[currentLang].correct} : ${score} · ` +
+  `${UI[currentLang].wrong} : ${wrong}`;
+
+
+  renderChart(score, wrong);
+}
+
+function renderChart(correct, wrong) {
+  const ctx = document.getElementById("resultChart").getContext("2d");
+  new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: [
+        UI[currentLang].correct,
+        UI[currentLang].wrong
+      ],
+      datasets: [{ data: [correct, wrong] }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: "bottom" } }
+    }
+  });
+}
+
+/* =========================================================
+   LANGUAGE SWITCH
+========================================================= */
+
+const langButtons = document.querySelectorAll(".lang-switch button");
+
+langButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const lang = btn.dataset.lang;
+    if (lang === currentLang) return;
+
+    currentLang = lang;
+
+    langButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    qi = 0;
+    score = 0;
+    timerSec = 15 * 60;
+
+    document.querySelector(".question-card").style.display = "block";
+    resultPanel.style.display = "none";
+
+    buildModel();
+    renderQuestion();
+  });
+});
+
+/* =========================================================
+   INIT
+========================================================= */
+
+buildModel();
+renderQuestion();
+</script>
+
+
+
+</body>
+</html>
