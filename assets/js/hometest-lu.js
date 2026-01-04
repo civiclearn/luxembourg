@@ -284,14 +284,22 @@ const expandBtn = document.getElementById("inline-test-expand");
 // HELPERS
 // ----------------------------
 function shuffleAnswers(q) {
-  const zipped = q.a[currentLang].map((t, i) => ({ t, c: i === q.correct }));
+  const correctIndex = q.correct[currentLang];
+
+  const zipped = q.a[currentLang].map((t, i) => ({
+    t,
+    c: i === correctIndex
+  }));
+
   for (let i = zipped.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [zipped[i], zipped[j]] = [zipped[j], zipped[i]];
   }
+
   q.a[currentLang] = zipped.map(x => x.t);
-  q.correct = zipped.findIndex(x => x.c);
+  q.correct[currentLang] = zipped.findIndex(x => x.c);
 }
+
 
 function resetInlineTest() {
   correctCount = 0;
