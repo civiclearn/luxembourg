@@ -448,32 +448,35 @@ function renderRow(rowIndex) {
       const btn = document.createElement("button");
       btn.className = "inline-option-btn";
       btn.textContent = opt;
+	  
+	  const correctIndex = q.correct[currentLang];
 
 btn.onclick = () => {
+  const correctIndex = q.correct[currentLang];
   answeredCount++;
 
   card.querySelectorAll("button").forEach((b, idx) => {
     b.disabled = true;
 
-    if (idx === q.correct) {
+    if (idx === correctIndex) {
       b.classList.add("inline-correct");
     }
 
-    if (idx === i && i !== q.correct) {
+    if (idx === i && i !== correctIndex) {
       b.classList.add("inline-wrong");
     }
   });
 
-  if (i === q.correct) {
+  if (i === correctIndex) {
     correctCount++;
   }
 
   const feedback = document.createElement("div");
   feedback.className = "inline-feedback";
   feedback.textContent =
-    i === q.correct
+    i === correctIndex
       ? UI.correct[currentLang]
-      : UI.wrong[currentLang] + q.a[currentLang][q.correct];
+      : UI.wrong[currentLang] + q.a[currentLang][correctIndex];
 
   card.appendChild(feedback);
   updateProgress();
@@ -492,6 +495,7 @@ btn.onclick = () => {
     card.after(createEndCard());
   }
 };
+
 
 
       card.appendChild(btn);
