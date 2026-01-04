@@ -232,9 +232,9 @@ const QUESTIONS = [
       de: "Für Kinder welchen Alters ist die Schulbildung kostenlos und verpflichtend?"
     },
     a: {
-      fr: ["de 4 à 16 ans", "de 3 à 18 ans", "de 7 à 16 ans"],
-      en: ["from 4 to 16 years old", "from 3 to 18 years old", "from 7 to 16 years old"],
-      de: ["von 4 bis 16 Jahren", "von 3 bis 18 Jahren", "von 7 bis 16 Jahren"]
+      fr: ["de 4 à 18 ans", "de 3 à 18 ans", "de 7 à 16 ans"],
+      en: ["from 4 to 18 years old", "from 3 to 18 years old", "from 7 to 16 years old"],
+      de: ["von 4 bis 18 Jahren", "von 3 bis 18 Jahren", "von 7 bis 16 Jahren"]
     },
     correct: 0
   },
