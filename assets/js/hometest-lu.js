@@ -43,7 +43,7 @@ const UI = {
 };
 
 // ----------------------------
-// QUESTIONS (14)
+// QUESTIONS (14) — FIXED
 // ----------------------------
 const QUESTIONS = [
   {
@@ -69,7 +69,7 @@ const QUESTIONS = [
         "aus finanziellen Gründen"
       ]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -82,7 +82,7 @@ const QUESTIONS = [
       en: ["the German Confederation", "the Swiss Confederation", "the Walloon Confederation"],
       de: ["der Deutsche Bund", "der Schweizerische Bund", "die Wallonische Konföderation"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -95,7 +95,7 @@ const QUESTIONS = [
       en: ["her son Jean", "her sister Marie-Adélaïde", "her daughter Marie-Gabrielle"],
       de: ["ihres Sohnes Jean", "ihrer Schwester Marie-Adélaïde", "ihrer Tochter Marie-Gabrielle"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -120,7 +120,7 @@ const QUESTIONS = [
         "die Union der luxemburgischen Bankinstitute"
       ]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -145,7 +145,7 @@ const QUESTIONS = [
         "keine Verbrechen begangen zu haben"
       ]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -158,7 +158,7 @@ const QUESTIONS = [
       en: ["twice", "once", "three times"],
       de: ["zweimal", "einmal", "dreimal"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -171,7 +171,7 @@ const QUESTIONS = [
       en: ["the Grand Duke", "the Prime Minister", "the Chamber of Deputies"],
       de: ["der Großherzog", "der Premierminister", "die Abgeordnetenkammer"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -184,7 +184,7 @@ const QUESTIONS = [
       en: ["6 years", "5 years", "4 years"],
       de: ["6 Jahre", "5 Jahre", "4 Jahre"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -197,7 +197,7 @@ const QUESTIONS = [
       en: ["18 years", "25 years", "21 years"],
       de: ["18 Jahre", "25 Jahre", "21 Jahre"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -210,7 +210,7 @@ const QUESTIONS = [
       en: ["four", "eight", "two"],
       de: ["vier", "acht", "zwei"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -223,7 +223,7 @@ const QUESTIONS = [
       en: ["two", "three", "five"],
       de: ["zwei", "drei", "fünf"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -236,7 +236,7 @@ const QUESTIONS = [
       en: ["from 4 to 18 years old", "from 3 to 18 years old", "from 7 to 16 years old"],
       de: ["von 4 bis 18 Jahren", "von 3 bis 18 Jahren", "von 7 bis 16 Jahren"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -249,7 +249,7 @@ const QUESTIONS = [
       en: ["the European treaty", "the Luxembourg law", "the Luxembourg Constitution"],
       de: ["der europäische Vertrag", "das luxemburgische Gesetz", "die luxemburgische Verfassung"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   },
   {
     q: {
@@ -262,9 +262,10 @@ const QUESTIONS = [
       en: ["border controls at internal borders", "national currencies", "national taxes"],
       de: ["die Grenzkontrollen an den Binnengrenzen", "die nationalen Währungen", "die nationalen Steuern"]
     },
-    correct: 0
+    correct: { fr: 0, en: 0, de: 0 }
   }
 ];
+
 
 // ----------------------------
 // STATE
