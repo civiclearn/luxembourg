@@ -13,10 +13,10 @@ export async function onRequest() {
   const today = new Date().toISOString().slice(0, 10);
 
   const urls = registry.default
-    .filter(entry => entry.publish_at && entry.publish_at <= today)
+    .filter(entry => !entry.publish_at || entry.publish_at <= today)
     .map(entry => {
       const loc = BASE_URL + entry.url;
-      const lastmod = entry.publish_at;
+      const lastmod = entry.publish_at || today;
 
       return `
   <url>
