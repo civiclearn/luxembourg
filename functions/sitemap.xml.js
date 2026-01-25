@@ -1,44 +1,40 @@
-export async function onRequest() {
+export async function onRequest({ request }) {
   const BASE_URL = "https://vivre-ensemble.lu";
+  let urls = [];
 
-  let registry;
+  // 1) Content registry
   try {
-    registry = await import("../assets/data/content-registry.json", {
-      assert: { type: "json" }
-    });
-  } catch {
-    return new Response("Missing content-registry.json", { status: 500 });
-  }
+    const registryUrl = new URL("/assets/data/content-registry.json", request.url);
+    const res = await fetch(registryUrl);
 
-  const today = new Date().toISOString().slice(0, 10);
+    if (res.ok) {
+      const data = await res.json();
+      const now = new Date();
 
-  const urls = registry.default
-    .filter(entry => !entry.publish_at || entry.publish_at <= today || entry.publish_at > today)
-    .map(entry => {
-      const loc = BASE_URL + entry.url;
+      urls.push(
+        ...data
+          .filter(item => {
+            if (!item.url) return false;
+            if (!item.publish_at) return true;
+            return new Date(item.publish_at) <= now;
+          })
+          .map(item => item.url)
+      );
+    }
+  } catch (_) {}
 
-      const lastmod =
-        entry.publish_at && entry.publish_at > today
-          ? `<lastmod>${entry.publish_at}</lastmod>`
-          : "";
+  // de-duplicate
+  urls = [...new Set(urls)];
 
-      return `
-  <url>
-    <loc>${loc}</loc>
-    ${lastmod}
-  </url>`;
-    })
-    .join("");
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
+${urls.map(path => `
+  <url>
+    <loc>${BASE_URL}${path}</loc>
+  </url>`).join("")}
 </urlset>`;
 
-  return new Response(xml.trim(), {
-    headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "no-cache"
-    }
+  return new Response(body.trim(), {
+    headers: { "Content-Type": "application/xml; charset=utf-8" }
   });
 }
