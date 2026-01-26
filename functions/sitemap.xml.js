@@ -2,9 +2,8 @@ export async function onRequest({ request }) {
   const BASE_URL = "https://vivre-ensemble.lu";
   let urls = [];
 
-  // 1) Content registry
   try {
-    const registryUrl = new URL("/assets/data/content-registry.json", request.url);
+    const registryUrl = new URL("/data/content-registry.json", request.url);
     const res = await fetch(registryUrl);
 
     if (res.ok) {
@@ -21,9 +20,11 @@ export async function onRequest({ request }) {
           .map(item => item.url)
       );
     }
-  } catch (_) {}
+  } catch (e) {
+    return new Response("Failed to load content registry", { status: 500 });
+  }
 
-  // de-duplicate
+  // de-duplicate (safe, cheap)
   urls = [...new Set(urls)];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
@@ -35,6 +36,8 @@ ${urls.map(path => `
 </urlset>`;
 
   return new Response(body.trim(), {
-    headers: { "Content-Type": "application/xml; charset=utf-8" }
+    headers: {
+      "Content-Type": "application/xml; charset=utf-8"
+    }
   });
 }
