@@ -561,7 +561,9 @@ Préparez-vous au test de nationalité luxembourgeoise à votre rythme.
     </a>
 
     <style>
-      #home-articles-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;max-width:1100px;margin:0 auto;}
+      #home-articles-list{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1100px;margin:0 auto;}
+      @media(max-width:900px){#home-articles-list{grid-template-columns:repeat(2,1fr);}}
+      @media(max-width:520px){#home-articles-list{grid-template-columns:1fr;}}
       #home-articles-list .ha-card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e1da;border-radius:14px;overflow:hidden;transition:transform .15s,box-shadow .15s;}
       #home-articles-list .ha-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
       #home-articles-list .ha-card img{width:100%;height:150px;object-fit:cover;display:block;}
@@ -585,7 +587,7 @@ Préparez-vous au test de nationalité luxembourgeoise à votre rythme.
     const res = await fetch('/assets/data/articles-lu.json');
     const list = await res.json();
     if (!Array.isArray(list) || !list.length) return;
-    const picks = [...list].sort(() => Math.random() - 0.5).slice(0, 6);
+    const picks = [...list].sort(() => Math.random() - 0.5).slice(0, 8);
     function articleSvg(title){
       let h=0; for(let i=0;i<title.length;i++){ h=(h*31 + title.charCodeAt(i))%360; }
       const h2=(h+40)%360;
