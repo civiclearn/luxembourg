@@ -581,8 +581,8 @@ Préparez-vous au test de nationalité luxembourgeoise à votre rythme.
   const el = document.getElementById('home-articles-list');
   if (!el) return;
   try {
-    // VERIFY THIS PATH — where articles-lu.json is actually served:
-    const res = await fetch('/blog-articles/articles-lu.json');
+    // Confirmed path (vivre-ensemble.lu):
+    const res = await fetch('/assets/data/articles-lu.json');
     const list = await res.json();
     if (!Array.isArray(list) || !list.length) return;
     const picks = [...list].sort(() => Math.random() - 0.5).slice(0, 6);
