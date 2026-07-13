@@ -561,11 +561,12 @@ Préparez-vous au test de nationalité luxembourgeoise à votre rythme.
     </a>
 
     <style>
-      #home-articles-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;max-width:1100px;margin:0 auto;}
-      #home-articles-list .ha-card{display:flex;align-items:center;justify-content:space-between;gap:14px;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e1da;border-left:3px solid #7c3aed;border-radius:12px;padding:16px 18px;transition:border-color .15s,box-shadow .15s;}
-      #home-articles-list .ha-card:hover{border-color:#7c3aed;box-shadow:0 4px 16px rgba(124,58,237,.10);}
-      #home-articles-list .ha-card h3{margin:0;font-size:.95rem;line-height:1.35;color:#1a1a2e;font-weight:600;}
-      #home-articles-list .ha-card .ha-go{flex:0 0 auto;color:#7c3aed;font-weight:700;font-size:1.1rem;}
+      #home-articles-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;max-width:1100px;margin:0 auto;}
+      #home-articles-list .ha-card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e5e1da;border-radius:14px;overflow:hidden;transition:transform .15s,box-shadow .15s;}
+      #home-articles-list .ha-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
+      #home-articles-list .ha-card img{width:100%;height:150px;object-fit:cover;display:block;}
+      #home-articles-list .ha-card .ha-body{padding:14px 16px;}
+      #home-articles-list .ha-card h3{margin:0;font-size:1rem;line-height:1.3;color:#1a1a2e;}
     </style>
     <div id="home-articles-list"></div>
 
@@ -585,10 +586,26 @@ Préparez-vous au test de nationalité luxembourgeoise à votre rythme.
     const list = await res.json();
     if (!Array.isArray(list) || !list.length) return;
     const picks = [...list].sort(() => Math.random() - 0.5).slice(0, 6);
+    function articleSvg(title){
+      let h=0; for(let i=0;i<title.length;i++){ h=(h*31 + title.charCodeAt(i))%360; }
+      const h2=(h+40)%360;
+      const letter=((title.trim()[0])||'\u2022').toUpperCase();
+      const svg="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'>"+
+        "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>"+
+        "<stop offset='0' stop-color='hsl("+h+",52%,55%)'/>"+
+        "<stop offset='1' stop-color='hsl("+h2+",58%,40%)'/>"+
+        "</linearGradient></defs>"+
+        "<rect width='400' height='200' fill='url(#g)'/>"+
+        "<text x='50%' y='55%' font-family='Lexend,sans-serif' font-size='128' font-weight='700' fill='rgba(255,255,255,.28)' text-anchor='middle' dominant-baseline='middle'>"+letter+"</text>"+
+        "</svg>";
+      return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
+    }
     el.innerHTML = picks.map(a => `
       <a href="/blog-articles/${a.slug}" class="ha-card">
-        <h3>${a.title}</h3>
-        <span class="ha-go">&rarr;</span>
+        <img src="${articleSvg(a.title)}" alt="${a.title}">
+        <div class="ha-body">
+          <h3>${a.title}</h3>
+        </div>
       </a>
     `).join('');
   } catch (e) { /* leave empty if the fetch fails */ }
