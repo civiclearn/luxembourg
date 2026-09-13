@@ -666,7 +666,7 @@ Préparez-vous au test de nationalité luxembourgeoise à votre rythme.
       return 'data:image/svg+xml;utf8,'+encodeURIComponent(svg);
     }
     el.innerHTML = picks.map(a => `
-      <a href="/blog-articles/${a.slug}" class="ha-card">
+      <a href="/${a.slug}" class="ha-card">
         <img src="${articleSvg(a.title)}" alt="${a.title}">
         <div class="ha-body">
           <h3>${a.title}</h3>
