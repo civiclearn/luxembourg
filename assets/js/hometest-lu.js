@@ -420,6 +420,7 @@ function createEndCard() {
           : "Vollzugang"
       }
     </a>
+    <p class="wc-curious" style="margin-top:0.9rem;font-size:0.85rem;line-height:1.45;text-align:center;"><a href="https://civiclearn.com/insights/hardest-citizenship-questions?utm_source=luxembourg-home&amp;utm_medium=free-test&amp;utm_campaign=world-challenge" target="_blank" rel="noopener" style="color:inherit;opacity:0.75;text-decoration:underline;text-underline-offset:2px;">${currentLang === "fr" ? "Simple curiosité ? Essayez les questions de citoyenneté les plus difficiles du monde (en anglais) →" : currentLang === "en" ? "Just curious? Try the hardest citizenship test questions in the world →" : "Nur neugierig? Testen Sie die schwierigsten Staatsbürgerschaftsfragen der Welt (auf Englisch) →"}</a></p>
   `;
 
   return card;
