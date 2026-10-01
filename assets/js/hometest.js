@@ -286,7 +286,6 @@ function createEndCard() {
     <p>Vous avez terminé les questions gratuites.  
     Accédez à plus de <strong>500 questions basées sur Discover Canada</strong>, aux simulations chronométrées et aux explications détaillées.</p>
     <a href="https://civiclearn.com/canadafr/checkout.html" class="hero-primary-btn">Obtenir l’accès complet</a>
-    <p class="wc-curious" style="margin-top:0.9rem;font-size:0.85rem;line-height:1.45;text-align:center;"><a href="https://civiclearn.com/insights/hardest-citizenship-questions?utm_source=luxembourg-home&amp;utm_medium=free-test&amp;utm_campaign=world-challenge" target="_blank" rel="noopener" style="color:inherit;opacity:0.75;text-decoration:underline;text-underline-offset:2px;">Simple curiosité ? Essayez les questions de citoyenneté les plus difficiles du monde (en anglais) →</a></p>
   `;
 
   return card;
